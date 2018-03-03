@@ -1,0 +1,51 @@
+version: '2'
+
+services:
+  db:
+    image: mariadb
+    restart: always
+    volumes:
+      - /mnt/other/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=
+    env_file:
+      - db.env
+
+  nextcloud:  
+    image: nextcloud:fpm
+    restart: always
+    volumes:
+      - nextcloud:/var/www/html
+      - /mnt/other/nextcloud:/var/www/html/data
+    environment:
+      - MYSQL_HOST=db
+    env_file:
+      - db.env
+    depends_on:
+      - db
+
+  web:
+    image: nginx
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - nextcloud:/var/www/html:ro
+      - ./conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - nextcloud
+
+  emby:
+    image: emby/embyserver:latest
+    restart: always
+    ports:
+      - 8096:8096
+      - 8920:8920
+    volumes:
+      - /mnt/movies1:/mnt/movies1:ro
+      - /mnt/movies2:/mnt/movies2:ro
+      - /mnt/other/embyconfig:/config
+      - /mnt/other:/mnt/other:ro
+
+volumes:
+  nextcloud:
