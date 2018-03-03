@@ -1,2 +1,6 @@
 conf.d/*
-db.env
+vhost.d/*
+*.env
+!*.save.env
+certs/*
+configs/*
