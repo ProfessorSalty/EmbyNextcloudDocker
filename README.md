@@ -5,5 +5,11 @@
 3) Populate all of the files in the `env` folder with your information
 4) Make sure you change the volumes for Emby and Nextcloud to suite your needs.
 
+# MAKE SURE YOU SET EMBY TO ALLOW REMOTE CONNECTIONS
+### Admin -> Advanced
+![allow remote connections](./remote.png)
+
 ## TODO
 * Separate volume mounts so they're not hard coded in the compose file
+
+
