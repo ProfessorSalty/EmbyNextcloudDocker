@@ -11,20 +11,6 @@ networks:
 
 services:
   # Proxy
-  web:
-    image: nginx
-    container_name: nextcloud_web
-    restart: always
-    volumes:
-      - nextcloud:/var/www/html:ro
-      - ./configs/full-nextcloud.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - nextcloud
-    networks:
-      - proxy
-    env_file:
-      - env/nextcloud.env
-
   nginx:
     image: nginx:alpine
     container_name: nginx
@@ -76,6 +62,20 @@ services:
         - NGINX_DOCKER_GEN_CONTAINER=dockergen
   
   # Nextcloud
+  web:
+    image: nginx
+    container_name: nextcloud_web
+    restart: always
+    volumes:
+      - nextcloud:/var/www/html:ro
+      - ./configs/full-nextcloud.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - nextcloud
+    networks:
+      - proxy
+    env_file:
+      - env/nextcloud.env
+
   db:
     image: mariadb
     container_name: nextcloud-db
